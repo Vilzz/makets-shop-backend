@@ -1,3 +1,5 @@
+const Maket = require('../models/Maket');
+
 // @desc Get all makets
 // @route GET /api/v1/makets
 // @access  Public
@@ -22,7 +24,8 @@ exports.getMaket = (req, res, next) => {
 // @route POST /api/v1/makets
 // @access Private
 exports.createMaket = (req, res, next) => {
-  res.status(200).json({ success: true, msg: 'Create new maket' });
+  Maket.create(req.body);
+  res.status(200).json(req.body);
 };
 
 // @desc Update maket by id

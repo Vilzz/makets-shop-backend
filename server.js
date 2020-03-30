@@ -11,6 +11,7 @@ connectDB();
 const app = express();
 
 const makets = require('./routes/makets');
+const category = require('./routes/category');
 
 // Logging middleware
 const accessLogStream = rfs.createStream('access.log', {
@@ -23,6 +24,7 @@ app.use(morgan('combined', { stream: accessLogStream }));
 
 app.use(express.json());
 app.use('/api/v1/makets', makets);
+app.use('/api/v1/category', category);
 const PORT = process.env.PORT || 5000;
 
 const server = app.listen(PORT, () => {
