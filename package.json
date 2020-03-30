@@ -1,0 +1,16 @@
+{
+  "name": "makets_backend",
+  "version": "1.0.0",
+  "description": "Space Makets e-shop API",
+  "main": "server.js",
+  "scripts": {
+    "start": "NODE_ENV=production node server",
+    "dev": "nodemon server"
+  },
+  "author": "Baklanov Dmitry",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  }
+}
