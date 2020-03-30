@@ -12,6 +12,7 @@ router
   .route('/')
   .get(getMakets)
   .post(createMaket);
+
 router
   .route('/:id')
   .get(getMaket)
