@@ -1,13 +1,18 @@
 const express = require('express');
 const dotenv = require('dotenv');
-//const fs = require('fs');
 const rfs = require('rotating-file-stream');
 const morgan = require('morgan');
 const path = require('path');
-const makets = require('./routes/makets');
+const connectDB = require('./config/db');
+
 dotenv.config({ path: './config/config.env' });
+connectDB();
+
 const app = express();
 
+const makets = require('./routes/makets');
+
+// Logging middleware
 const accessLogStream = rfs.createStream('access.log', {
   size: '10M',
   interval: '1d',
@@ -20,6 +25,11 @@ app.use(express.json());
 app.use('/api/v1/makets', makets);
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+});
+
+process.on('unhandledRejection', (err, promise) => {
+  console.log(`Error: ${err.message}`);
+  server.close(() => process.exit(1));
 });
