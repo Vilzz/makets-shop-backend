@@ -1,18 +1,19 @@
 const express = require('express');
 const dotenv = require('dotenv');
-var fs = require('fs');
-var morgan = require('morgan');
-var path = require('path');
+//const fs = require('fs');
+const rfs = require('rotating-file-stream');
+const morgan = require('morgan');
+const path = require('path');
 const makets = require('./routes/makets');
 dotenv.config({ path: './config/config.env' });
 const app = express();
 
-const accessLogStream = fs.createWriteStream(
-  path.join(__dirname, './logs/access.log'),
-  {
-    flags: 'a'
-  }
-);
+const accessLogStream = rfs.createStream('access.log', {
+  size: '10M',
+  interval: '1d',
+  compress: 'gzip',
+  path: path.join(__dirname, './logs')
+});
 app.use(morgan('combined', { stream: accessLogStream }));
 
 app.use(express.json());
