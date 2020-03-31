@@ -1,3 +1,4 @@
+const ErrorResponse = require('../utils/errorResponse');
 const Maket = require('../models/Maket');
 
 // @desc Get all makets
@@ -9,10 +10,11 @@ exports.getMakets = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
+      count: makets.length,
       data: makets
     });
   } catch (err) {
-    res.status(400).json({ success: false, error: err.message });
+    next(err);
   }
 };
 
@@ -23,16 +25,16 @@ exports.getMaket = async (req, res, next) => {
   try {
     const maket = await Maket.findById(req.params.id);
     if (!maket) {
-      return res
-        .status(400)
-        .json({ success: false, error: `No maket with id ${req.params.id}` });
+      return next(
+        new ErrorResponse(`Ресурс с id  - ${req.params.id} не найден`, 404)
+      );
     }
     res.status(200).json({
       success: true,
       data: maket
     });
   } catch (err) {
-    res.status(400).json({ success: false, error: err.message });
+    next(err);
   }
 };
 
@@ -47,7 +49,7 @@ exports.createMaket = async (req, res, next) => {
       data: maket
     });
   } catch (err) {
-    res.status(400).json({ success: false, error: err.message });
+    next(err);
   }
 };
 
@@ -61,10 +63,9 @@ exports.updateMaket = async (req, res, next) => {
       runValidators: true
     });
     if (!maket) {
-      return res.status(400).json({
-        success: false,
-        error: `Maket with id ${req.params.id} not found`
-      });
+      return next(
+        new ErrorResponse(`Ресурс с  id  - ${req.params.id} не найден`, 404)
+      );
     }
 
     res.status(200).json({
@@ -72,7 +73,7 @@ exports.updateMaket = async (req, res, next) => {
       data: maket
     });
   } catch (err) {
-    res.status(400).json({ success: false, error: err.message });
+    next(err);
   }
 };
 
@@ -82,9 +83,13 @@ exports.updateMaket = async (req, res, next) => {
 exports.deleteMaket = async (req, res, next) => {
   try {
     await Maket.findByIdAndDelete(req.params.id);
-
+    if (!maket) {
+      return next(
+        new ErrorResponse(`Ресурс с id  - ${req.params.id} не найден`, 404)
+      );
+    }
     res.status(200).json({ success: true, data: {} });
   } catch (err) {
-    res.status(400).json({ success: false, error: err.message });
+    next(err);
   }
 };

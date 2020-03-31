@@ -2,20 +2,23 @@ const mongoose = require('mongoose');
 const MaketSchema = new mongoose.Schema({
   maketname: {
     type: String,
-    required: [true, 'Please add maket name'],
+    required: [true, 'Требуется добавить имя макета'],
     unique: true,
     trim: true,
-    maxlength: [50, 'Maket name maxlength - 50 chars']
+    maxlength: [50, 'Максимальная длина макета - 50 символов']
   },
   shortdesc: {
     type: String,
-    required: [true, 'Please add maket short description'],
-    maxlength: [300, 'Maket short description maxlength - 300 chars']
+    required: [true, 'Требуется добавить краткое описание макета'],
+    maxlength: [
+      300,
+      'Максимальная длина краткого описания макета - 300 символов'
+    ]
   },
   category: {
     type: mongoose.Schema.ObjectId,
     ref: 'Category',
-    required: true
+    required: [true, 'Требуется указать ID категории']
   },
   image: {
     type: String,
@@ -28,23 +31,23 @@ const MaketSchema = new mongoose.Schema({
   },
   material: {
     type: String,
-    default: 'Aluminium'
+    default: 'Алюминий'
   },
   minprodtime: {
     type: String,
-    default: '10 days'
+    default: '10 дней'
   },
   instock: {
     type: Number
   },
   packing: {
     type: String,
-    default: 'Standart'
+    default: 'Стандартная'
   },
   description: {
     type: String,
-    required: [true, 'Please add maket description'],
-    maxlength: [1000, 'Maket description maxlength - 1000 chars']
+    required: [true, 'Требуется добавить описание макета'],
+    maxlength: [1000, 'Максимальная длина описания макета - 1000 символов']
   },
   slug: {
     type: String,

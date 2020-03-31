@@ -4,7 +4,7 @@ const rfs = require('rotating-file-stream');
 const morgan = require('morgan');
 const path = require('path');
 const connectDB = require('./config/db');
-
+const errorHandler = require('./middleware/errorHandler');
 dotenv.config({ path: './config/config.env' });
 connectDB();
 
@@ -29,6 +29,9 @@ app.use(
 app.use(express.json());
 app.use('/api/v1/makets', makets);
 app.use('/api/v1/category', category);
+
+app.use(errorHandler);
+
 const PORT = process.env.PORT || 5000;
 
 const server = app.listen(PORT, () => {
