@@ -6,7 +6,23 @@ const Maket = require('../models/Maket');
 // @route GET /api/v1/makets
 // @access  Public
 exports.getMakets = asyncHandler(async (req, res, next) => {
-  const makets = await Maket.find();
+  let query;
+  const reqQuery = { ...req.query };
+  const removeFields = ['select', 'sort'];
+  removeFields.forEach(param => delete reqQuery[param]);
+  query = Maket.find(reqQuery);
+
+  if (req.query.select) {
+    const fields = req.query.select.split(',').join(' ');
+    query = query.select(fields);
+  }
+
+  if (req.query.sort) {
+    const sortBy = req.query.sort.split(',').join(' ');
+    query = query.sort(sortBy);
+  }
+
+  const makets = await query;
   res.status(200).json({
     success: true,
     count: makets.length,
@@ -21,7 +37,7 @@ exports.getMaket = asyncHandler(async (req, res, next) => {
   const maket = await Maket.findById(req.params.id);
   if (!maket) {
     return next(
-      new ErrorResponse(`Ресурс с id  - ${req.params.id} не найден`, 404)
+      new ErrorResponse(`Ресурс с id - ${req.params.id} не найден`, 404)
     );
   }
   res.status(200).json({
@@ -51,7 +67,7 @@ exports.updateMaket = asyncHandler(async (req, res, next) => {
   });
   if (!maket) {
     return next(
-      new ErrorResponse(`Ресурс с  id  - ${req.params.id} не найден`, 404)
+      new ErrorResponse(`Ресурс с id - ${req.params.id} не найден`, 404)
     );
   }
 
@@ -68,7 +84,7 @@ exports.deleteMaket = asyncHandler(async (req, res, next) => {
   const maket = await Maket.findByIdAndDelete(req.params.id);
   if (!maket) {
     return next(
-      new ErrorResponse(`Ресурс с id  - ${req.params.id} не найден`, 404)
+      new ErrorResponse(`Ресурс с id - ${req.params.id} не найден`, 404)
     );
   }
   res.status(200).json({ success: true, data: {} });

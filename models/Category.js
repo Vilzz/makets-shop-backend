@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 const CategorySchema = new mongoose.Schema({
   categoryname: {
     type: String,
@@ -14,9 +15,18 @@ const CategorySchema = new mongoose.Schema({
   },
   slug: {
     type: String,
-    required: [true, 'Требуется заполнить поле - Slug (латинскими буквами)'],
     unique: true
   }
 });
+
+CategorySchema.pre('save', function(next) {
+  this.slug = slugify(this.categoryname, { lower: true });
+  next();
+});
+
+// CategorySchema.pre('delete', async function (next) {
+//   await this.model('Course').deleteMany({ bootcamp: this._id });
+//   next();
+// });
 
 module.exports = mongoose.model('Category', CategorySchema);

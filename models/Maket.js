@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
+
 const MaketSchema = new mongoose.Schema({
   maketname: {
     type: String,
@@ -53,6 +55,11 @@ const MaketSchema = new mongoose.Schema({
     type: String,
     unique: true
   }
+});
+
+MaketSchema.pre('save', function(next) {
+  this.slug = slugify(this.maketname, { lower: true });
+  next();
 });
 
 module.exports = mongoose.model('Maket', MaketSchema);
