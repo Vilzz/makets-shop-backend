@@ -2,17 +2,21 @@ const mongoose = require('mongoose');
 const CategorySchema = new mongoose.Schema({
   categoryname: {
     type: String,
-    required: [true, 'Please add category name'],
+    required: [true, 'Требуется добавить название категории'],
     unique: true,
     trim: true,
-    maxlength: [50, 'Category name maxlength - 50 chars']
+    maxlength: [50, 'Максимальная длина имени категории - 50 символов']
   },
   description: {
     type: String,
-    required: [true, 'Please add category description'],
-    maxlength: [1000, 'Category description maxlength - 1000 chars']
+    required: [true, 'Требуется добавить описание категории'],
+    maxlength: [1000, 'Максимальная длина описания категории - 1000 символов']
   },
-  slug: String
+  slug: {
+    type: String,
+    required: [true, 'Требуется заполнить поле - Slug (латинскими буквами)'],
+    unique: true
+  }
 });
 
 module.exports = mongoose.model('Category', CategorySchema);

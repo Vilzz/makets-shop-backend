@@ -9,7 +9,9 @@ const errorHandler = (err, req, res, next) => {
   }
 
   if (err.code === 11000) {
-    const message = 'Поле базы данных уже содержит такую запись';
+    const message = `Поле базы данных уже содержит такую запись -'${Object.keys(
+      err.keyValue
+    )}':'${Object.values(err.keyValue)}'`;
     error = new ErrorResponse(message, 400);
   }
 

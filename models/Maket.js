@@ -5,7 +5,7 @@ const MaketSchema = new mongoose.Schema({
     required: [true, 'Требуется добавить имя макета'],
     unique: true,
     trim: true,
-    maxlength: [50, 'Максимальная длина макета - 50 символов']
+    maxlength: [50, 'Максимальная длина имени макета - 50 символов']
   },
   shortdesc: {
     type: String,
@@ -26,7 +26,7 @@ const MaketSchema = new mongoose.Schema({
   },
   scales: {
     type: [Number],
-    required: true,
+    required: [true, 'Доступные масштабы - 250,144,100,72,50'],
     enum: [250, 144, 100, 72, 50]
   },
   material: {
