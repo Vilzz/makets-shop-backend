@@ -20,7 +20,11 @@ const accessLogStream = rfs.createStream('access.log', {
   compress: 'gzip',
   path: path.join(__dirname, './logs')
 });
-app.use(morgan('combined', { stream: accessLogStream }));
+app.use(
+  morgan('combined', {
+    stream: accessLogStream
+  })
+);
 
 app.use(express.json());
 app.use('/api/v1/makets', makets);

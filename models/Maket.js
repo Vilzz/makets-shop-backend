@@ -46,7 +46,10 @@ const MaketSchema = new mongoose.Schema({
     required: [true, 'Please add maket description'],
     maxlength: [1000, 'Maket description maxlength - 1000 chars']
   },
-  slug: String
+  slug: {
+    type: String,
+    unique: true
+  }
 });
 
 module.exports = mongoose.model('Maket', MaketSchema);

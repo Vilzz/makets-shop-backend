@@ -3,9 +3,16 @@ const Category = require('../models/Category');
 // @desc Create new category
 // @route POST /api/v1/category
 // @access Private
-exports.createCategory = (req, res, next) => {
-  Category.create(req.body);
-  res.status(200).json(req.body);
+exports.createCategory = async (req, res, next) => {
+  try {
+    const category = await Category.create(req.body);
+    res.status(201).json({ success: true, data: category });
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      error: err.message
+    });
+  }
 };
 
 // @desc Update category by id
