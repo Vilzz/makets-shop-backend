@@ -5,8 +5,11 @@ const {
   getMakets,
   createMaket,
   updateMaket,
-  deleteMaket
+  deleteMaket,
+  maketImageUpload
 } = require('../controllers/makets');
+
+router.route('/:id/image').put(maketImageUpload);
 
 router
   .route('/')

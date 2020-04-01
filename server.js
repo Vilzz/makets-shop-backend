@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const rfs = require('rotating-file-stream');
 const morgan = require('morgan');
+const fileupload = require('express-fileupload');
 const path = require('path');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
@@ -25,8 +26,11 @@ app.use(
     stream: accessLogStream
   })
 );
-
 app.use(express.json());
+app.use(fileupload());
+
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use('/api/v1/makets', makets);
 app.use('/api/v1/category', category);
 
