@@ -8,12 +8,14 @@ const {
   deleteMaket,
   maketImageUpload
 } = require('../controllers/makets');
+const Maket = require('../models/Maket');
+const advancedResults = require('../middleware/advancedResults');
 
 router.route('/:id/image').put(maketImageUpload);
 
 router
   .route('/')
-  .get(getMakets)
+  .get(advancedResults(Maket), getMakets)
   .post(createMaket);
 
 router

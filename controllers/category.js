@@ -6,12 +6,7 @@ const Category = require('../models/Category');
 // @route GET /api/v1/category
 // @access Public
 exports.getCategories = asyncHandler(async (req, res, next) => {
-  const categories = await Category.find();
-  res.status(200).json({
-    success: true,
-    count: categories.length,
-    data: categories
-  });
+  res.status(200).json(res.advancedResults);
 });
 // @desc Create new category
 // @route POST /api/v1/category

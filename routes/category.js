@@ -6,10 +6,12 @@ const {
   updateCategory,
   deleteCategory
 } = require('../controllers/category');
+const Category = require('../models/Category');
+const advancedResults = require('../middleware/advancedResults');
 
 router
   .route('/')
-  .get(getCategories)
+  .get(advancedResults(Category), getCategories)
   .post(createCategory);
 router
   .route('/:id')
