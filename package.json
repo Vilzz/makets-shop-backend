@@ -10,9 +10,11 @@
   "author": "Baklanov Dmitry",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.6",
     "morgan": "^1.10.0",
     "rotating-file-stream": "^2.0.2",

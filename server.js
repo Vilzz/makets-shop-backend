@@ -13,6 +13,7 @@ const app = express();
 
 const makets = require('./routes/makets');
 const category = require('./routes/category');
+const auth = require('./routes/auth');
 
 // Logging middleware
 const accessLogStream = rfs.createStream('access.log', {
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/v1/makets', makets);
 app.use('/api/v1/category', category);
+app.use('/api/v1/auth', auth);
 
 app.use(errorHandler);
 
