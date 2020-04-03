@@ -17,11 +17,12 @@ const MaketSchema = new mongoose.Schema({
       'Максимальная длина краткого описания макета - 300 символов'
     ]
   },
-  category: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Category',
-    required: [true, 'Требуется указать ID категории']
-  },
+  category: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Category'
+    }
+  ],
   image: {
     type: String,
     default: 'no-image.jpg'
