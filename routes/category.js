@@ -8,15 +8,15 @@ const {
 } = require('../controllers/category');
 const Category = require('../models/Category');
 const advancedResults = require('../middleware/advancedResults');
-const { protect } = require('../middleware/auth');
+const { protect, authorise } = require('../middleware/auth');
 
 router
   .route('/')
   .get(advancedResults(Category), getCategories)
-  .post(protect, createCategory);
+  .post(protect, authorise('admin', 'owner'), createCategory);
 router
   .route('/:id')
-  .put(protect, updateCategory)
-  .delete(protect, deleteCategory);
+  .put(protect, authorise('admin', 'owner'), updateCategory)
+  .delete(protect, authorise('admin', 'owner'), deleteCategory);
 
 module.exports = router;

@@ -10,19 +10,21 @@ const {
 } = require('../controllers/makets');
 const Maket = require('../models/Maket');
 const advancedResults = require('../middleware/advancedResults');
-const { protect } = require('../middleware/auth');
+const { protect, authorise } = require('../middleware/auth');
 
-router.route('/:id/image').put(protect, maketImageUpload);
+router
+  .route('/:id/image')
+  .put(protect, authorise('admin', 'owner'), maketImageUpload);
 
 router
   .route('/')
   .get(advancedResults(Maket), getMakets)
-  .post(protect, createMaket);
+  .post(protect, authorise('admin', 'owner'), createMaket);
 
 router
   .route('/:id')
   .get(getMaket)
-  .put(protect, updateMaket)
-  .delete(protect, deleteMaket);
+  .put(protect, authorise('admin', 'owner'), updateMaket)
+  .delete(protect, authorise('admin', 'owner'), deleteMaket);
 
 module.exports = router;

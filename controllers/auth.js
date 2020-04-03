@@ -76,3 +76,22 @@ exports.getMe = asyncHandler(async (req, res, next) => {
     data: user
   });
 });
+
+// @desc Update User role
+// @route PUT /api/v1/auth/:id
+// @access Private
+exports.setRoleToUser = asyncHandler(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true
+  });
+  if (!user) {
+    return next(
+      new ErrorResponse(`Пользователь с  id  - ${req.params.id} не найден`, 404)
+    );
+  }
+  res.status(200).json({
+    success: true,
+    data: user
+  });
+});
