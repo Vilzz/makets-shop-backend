@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const rfs = require('rotating-file-stream');
 const morgan = require('morgan');
 const fileupload = require('express-fileupload');
+const cookieParser = require('cookie-parser');
 const path = require('path');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
@@ -29,7 +30,7 @@ app.use(
 );
 app.use(express.json());
 app.use(fileupload());
-
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/v1/makets', makets);
