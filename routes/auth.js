@@ -7,13 +7,17 @@ const {
   setRoleToUser,
   forgotPassword,
   resetPassword,
+  updateProfile,
+  updatePassword,
 } = require('../controllers/auth');
 const { protect, authorise } = require('../middleware/auth');
 
 router.route('/register').post(registerUser);
 router.route('/login').post(loginUser);
 router.route('/me').get(protect, getMe);
-router.route('/:id').put(protect, authorise('owner'), setRoleToUser);
+router.route('/updateprofile').put(protect, updateProfile);
+router.route('/setrole/:id').put(protect, authorise('owner'), setRoleToUser);
 router.route('/forgotpassword').post(forgotPassword);
 router.route('/resetpassword/:resettoken').put(resetPassword);
+router.route('/updatepassword').put(protect, updatePassword);
 module.exports = router;
