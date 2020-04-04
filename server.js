@@ -15,17 +15,18 @@ const app = express();
 const makets = require('./routes/makets');
 const category = require('./routes/category');
 const auth = require('./routes/auth');
+const users = require('./routes/users');
 
 // Logging middleware
 const accessLogStream = rfs.createStream('access.log', {
   size: '10M',
   interval: '1d',
   compress: 'gzip',
-  path: path.join(__dirname, './logs')
+  path: path.join(__dirname, './logs'),
 });
 app.use(
   morgan('combined', {
-    stream: accessLogStream
+    stream: accessLogStream,
   })
 );
 app.use(express.json());
@@ -36,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/v1/makets', makets);
 app.use('/api/v1/category', category);
 app.use('/api/v1/auth', auth);
+app.use('/api/v1/users', users);
 
 app.use(errorHandler);
 
