@@ -7,58 +7,63 @@ const MaketSchema = new mongoose.Schema({
     required: [true, 'Требуется добавить имя макета'],
     unique: true,
     trim: true,
-    maxlength: [50, 'Максимальная длина имени макета - 50 символов']
+    maxlength: [50, 'Максимальная длина имени макета - 50 символов'],
   },
   shortdesc: {
     type: String,
     required: [true, 'Требуется добавить краткое описание макета'],
     maxlength: [
       300,
-      'Максимальная длина краткого описания макета - 300 символов'
-    ]
+      'Максимальная длина краткого описания макета - 300 символов',
+    ],
   },
   category: [
     {
       type: mongoose.Schema.ObjectId,
-      ref: 'Category'
-    }
+      ref: 'Category',
+    },
   ],
   image: {
     type: String,
-    default: 'no-image.jpg'
+    default: 'no-image.jpg',
+  },
+  averageRating: {
+    type: Number,
+    min: [1, 'Минимальное значение рейтинга 1'],
+    max: [10, 'Максимальное значение рейтинга 10'],
   },
   scales: {
     type: [Number],
     required: [true, 'Доступные масштабы - 250,144,100,72,50'],
-    enum: [250, 144, 100, 72, 50]
+    enum: [250, 144, 100, 72, 50],
   },
   material: {
     type: String,
-    default: 'Алюминий'
+    default: 'Алюминий',
   },
   minprodtime: {
     type: String,
-    default: '10 дней'
+    default: '10 дней',
   },
   instock: {
-    type: Number
+    type: Number,
   },
   packing: {
     type: String,
-    default: 'Стандартная'
+    default: 'Стандартная',
   },
   description: {
     type: String,
     required: [true, 'Требуется добавить описание макета'],
-    maxlength: [1000, 'Максимальная длина описания макета - 1000 символов']
+    maxlength: [1000, 'Максимальная длина описания макета - 1000 символов'],
   },
   slug: {
     type: String,
-    unique: true
-  }
+    unique: true,
+  },
 });
 
-MaketSchema.pre('save', function(next) {
+MaketSchema.pre('save', function (next) {
   this.slug = slugify(this.maketname, { lower: true });
   next();
 });

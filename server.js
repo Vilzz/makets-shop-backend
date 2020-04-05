@@ -16,6 +16,7 @@ const makets = require('./routes/makets');
 const category = require('./routes/category');
 const auth = require('./routes/auth');
 const users = require('./routes/users');
+const reviews = require('./routes/reviews');
 
 // Logging middleware
 const accessLogStream = rfs.createStream('access.log', {
@@ -38,6 +39,7 @@ app.use('/api/v1/makets', makets);
 app.use('/api/v1/category', category);
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/users', users);
+app.use('/api/v1/reviews', reviews);
 
 app.use(errorHandler);
 

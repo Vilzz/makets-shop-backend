@@ -6,11 +6,14 @@ const {
   createMaket,
   updateMaket,
   deleteMaket,
-  maketImageUpload
+  maketImageUpload,
 } = require('../controllers/makets');
 const Maket = require('../models/Maket');
+const reviewsRouter = require('./reviews');
 const advancedResults = require('../middleware/advancedResults');
 const { protect, authorise } = require('../middleware/auth');
+
+router.use('/:maketid/reviews', reviewsRouter);
 
 router
   .route('/:id/image')
