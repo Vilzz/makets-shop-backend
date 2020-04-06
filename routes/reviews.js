@@ -7,7 +7,6 @@ const {
   updateReview,
   deleteReview,
 } = require('../controllers/reviews');
-const Maket = require('../models/Maket');
 const Review = require('../models/Review');
 const advancedResults = require('../middleware/advancedResults');
 const { protect, authorise } = require('../middleware/auth');

@@ -2,7 +2,6 @@ const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const Review = require('../models/Review');
 const Maket = require('../models/Maket');
-const User = require('../models/User');
 
 // @desc Get reviews
 // @route GET /api/v1/makets/:maketid/reviews

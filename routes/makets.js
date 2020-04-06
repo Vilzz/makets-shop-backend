@@ -10,10 +10,12 @@ const {
 } = require('../controllers/makets');
 const Maket = require('../models/Maket');
 const reviewsRouter = require('./reviews');
+const pricesRouter = require('./prices');
 const advancedResults = require('../middleware/advancedResults');
 const { protect, authorise } = require('../middleware/auth');
 
 router.use('/:maketid/reviews', reviewsRouter);
+router.use('/:maketid/prices', pricesRouter);
 
 router
   .route('/:id/image')
