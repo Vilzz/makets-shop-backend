@@ -6,20 +6,24 @@ const CategorySchema = new mongoose.Schema({
     required: [true, 'Требуется добавить название категории'],
     unique: true,
     trim: true,
-    maxlength: [50, 'Максимальная длина имени категории - 50 символов']
+    maxlength: [50, 'Максимальная длина имени категории - 50 символов'],
   },
   description: {
     type: String,
     required: [true, 'Требуется добавить описание категории'],
-    maxlength: [1000, 'Максимальная длина описания категории - 1000 символов']
+    maxlength: [1000, 'Максимальная длина описания категории - 1000 символов'],
+  },
+  showonmain: {
+    type: Boolean,
+    default: false,
   },
   slug: {
     type: String,
-    unique: true
-  }
+    unique: true,
+  },
 });
 
-CategorySchema.pre('save', function(next) {
+CategorySchema.pre('save', function (next) {
   this.slug = slugify(this.categoryname, { lower: true });
   next();
 });
