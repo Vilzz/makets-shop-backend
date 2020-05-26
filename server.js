@@ -23,6 +23,8 @@ const auth = require('./routes/auth');
 const users = require('./routes/users');
 const reviews = require('./routes/reviews');
 const prices = require('./routes/prices');
+const orders = require('./routes/orders');
+const attributes = require('./routes/attributes');
 
 // Logging middleware
 const accessLogStream = rfs.createStream('access.log', {
@@ -43,13 +45,13 @@ app.use(helmet());
 app.use(xss());
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, //10 min
-  max: 100,
+  max: 1000,
 });
 app.use(limiter);
 app.use(hpp());
 app.use(hpp());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, './client/public')));
 
 app.use('/api/v1/makets', makets);
 app.use('/api/v1/category', category);
@@ -57,6 +59,8 @@ app.use('/api/v1/auth', auth);
 app.use('/api/v1/users', users);
 app.use('/api/v1/reviews', reviews);
 app.use('/api/v1/prices', prices);
+app.use('/api/v1/orders', orders);
+app.use('/api/v1/attributes', attributes);
 
 app.use(errorHandler);
 

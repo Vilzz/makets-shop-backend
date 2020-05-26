@@ -1,4 +1,4 @@
-const advancedResults = (model, populate) => async (req, res, next) => {
+const advancedResults = (model, ...populate) => async (req, res, next) => {
   let query;
   const reqQuery = { ...req.query };
   const removeFields = ['select', 'sort', 'page', 'limit'];
@@ -22,7 +22,7 @@ const advancedResults = (model, populate) => async (req, res, next) => {
     query = query.sort(sortBy);
   }
   const page = parseInt(req.query.page, 10) || 1;
-  const limit = parseInt(req.query.limit, 10) || 10;
+  const limit = parseInt(req.query.limit, 10) || 20;
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
   const total = await model.countDocuments();
@@ -30,7 +30,7 @@ const advancedResults = (model, populate) => async (req, res, next) => {
   query = query.skip(startIndex).limit(limit);
 
   if (populate) {
-    query = query.populate(populate);
+    query = query.populate(populate.map((obj) => obj));
   }
 
   const pagination = {};

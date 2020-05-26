@@ -4,7 +4,6 @@ const CategorySchema = new mongoose.Schema({
   categoryname: {
     type: String,
     required: [true, 'Требуется добавить название категории'],
-    unique: true,
     trim: true,
     maxlength: [50, 'Максимальная длина имени категории - 50 символов'],
   },

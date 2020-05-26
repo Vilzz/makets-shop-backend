@@ -5,7 +5,7 @@ const ReviewSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Требуется добавить заголовок'],
     trim: true,
-    maxlength: [100, 'Максимальная длина имени категории - 100 символов'],
+    maxlength: [100, 'Максимальная длина имени заголовка - 100 символов'],
   },
   text: {
     type: String,

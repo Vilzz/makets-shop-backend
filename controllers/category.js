@@ -22,7 +22,7 @@ exports.createCategory = asyncHandler(async (req, res, next) => {
 exports.updateCategory = asyncHandler(async (req, res, next) => {
   const category = await Category.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
-    runValidators: true
+    runValidators: true,
   });
   if (!category) {
     return next(
@@ -31,7 +31,7 @@ exports.updateCategory = asyncHandler(async (req, res, next) => {
   }
   res.status(200).json({
     success: true,
-    data: category
+    data: category,
   });
 });
 
@@ -46,4 +46,19 @@ exports.deleteCategory = asyncHandler(async (req, res, next) => {
     );
   }
   res.status(200).json({ success: true, data: {} });
+});
+// @desc Get category by id
+// @route GET /api/v1/category/:id
+// @access Private
+exports.getCategory = asyncHandler(async (req, res, next) => {
+  const category = await Category.findById(req.params.id);
+  if (!category) {
+    return next(
+      new ErrorResponse(`Ресурс с  id  - ${req.params.id} не найден`, 404)
+    );
+  }
+  res.status(200).json({
+    success: true,
+    data: category,
+  });
 });

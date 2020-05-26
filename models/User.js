@@ -17,6 +17,20 @@ const UserSchema = new mongoose.Schema({
       'Требуется адрес электронной почты',
     ],
   },
+  address: {
+    type: String,
+    default: 'Адрес не указан',
+    maxlength: [500, 'Максимальная длина адреса - 500 символов'],
+  },
+  phone: {
+    type: String,
+    required: [true, 'Введите номер телефона'],
+    default: '+71112222222',
+    match: [
+      /^((\+7|7|8)+([0-9]){10})$/,
+      'Номер телефона не соответствует формату 89997777777 или +79997777777',
+    ],
+  },
   role: {
     type: String,
     enum: ['user', 'admin', 'owner'],
@@ -25,7 +39,7 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, 'Требуется пароль'],
-    minlength: 6,
+    minlength: [6, 'Минимальная длина пароля - 6 символов'],
     select: false,
   },
   resetPasswordToken: String,

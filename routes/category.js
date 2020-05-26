@@ -4,7 +4,8 @@ const {
   getCategories,
   createCategory,
   updateCategory,
-  deleteCategory
+  deleteCategory,
+  getCategory,
 } = require('../controllers/category');
 const Category = require('../models/Category');
 const advancedResults = require('../middleware/advancedResults');
@@ -17,6 +18,6 @@ router
 router
   .route('/:id')
   .put(protect, authorise('admin', 'owner'), updateCategory)
-  .delete(protect, authorise('admin', 'owner'), deleteCategory);
-
+  .delete(protect, authorise('admin', 'owner'), deleteCategory)
+  .get(protect, authorise('admin', 'owner'), getCategory);
 module.exports = router;

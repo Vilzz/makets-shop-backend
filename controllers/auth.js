@@ -142,12 +142,15 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
 
   await user.save({ validateBeforeSave: false });
 
-  const resetUrl = `${req.protocol}://${req.get(
-    'host'
-  )}/api/v1/auth/resetpassword/${resetToken}`;
+  // const resetUrl = `${req.protocol}://${req.get(
+  //   'host'
+  // )}/api/v1/auth/resetpassword/${resetToken}`;
+  const resetUrl = `${req.protocol}://localhost:3000/resetpassword/${resetToken}`;
 
-  const message = `Мы отправили вам это письмо потому что вы или кто-то еще запросил сброс пароля. 
-  Для завершения процедуры сделайте PUT запрос на адрес: \n\n ${resetUrl}`;
+  const message = `<p>Мы отправили вам это письмо потому что вы или кто-то еще запросил сброс пароля.<br /> 
+  Для завершения процедуры перейдите по ссылке:</p> 
+  <a href='${resetUrl}'>Перейти на сайт для сброса пароля</a>
+  <p>Проигнорируйте данное письмо если вы не отправляли запрос на изменение учетных данных</p>`;
 
   try {
     await sendEmail({
