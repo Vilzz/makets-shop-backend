@@ -2,17 +2,29 @@ const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const OrderSchema = new mongoose.Schema({
-  ordernum: Number,
+  ordernumber: Number,
   items: [
     {
       item: { type: mongoose.Schema.ObjectId, ref: 'Maket' },
       qty: { type: Number, required: true },
       scale: { type: String, required: true },
+      price: { type: Number, require: true },
+      packing: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Packing',
+        required: true,
+      },
+      rowsum: {
+        type: Number,
+      },
     },
   ],
+  total: {
+    type: Number,
+    require: true,
+  },
   orderdate: {
     type: Date,
-    default: Date.now,
   },
   customer: {
     type: mongoose.Schema.ObjectId,
@@ -26,6 +38,7 @@ const OrderSchema = new mongoose.Schema({
   },
   comment: {
     type: String,
+    deafault: 'No comment',
   },
 });
 OrderSchema.plugin(AutoIncrement, { inc_field: 'ordernumber' });

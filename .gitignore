@@ -1,5 +1,6 @@
 node_modules/
 config/config.env
 logs/
-client/
 seeder.js
+.vscode/
+client/

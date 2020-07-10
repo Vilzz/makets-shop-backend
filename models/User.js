@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const Orders = require('./Orders');
+const Basket = require('./Basket');
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -25,11 +27,15 @@ const UserSchema = new mongoose.Schema({
   phone: {
     type: String,
     required: [true, 'Введите номер телефона'],
-    default: '+71112222222',
+    default: '+70000000000',
     match: [
       /^((\+7|7|8)+([0-9]){10})$/,
       'Номер телефона не соответствует формату 89997777777 или +79997777777',
     ],
+  },
+  basketid: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Basket',
   },
   role: {
     type: String,
@@ -54,9 +60,14 @@ UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     next();
   }
-
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
+});
+
+UserSchema.pre('deleteOne', async function (next) {
+  await Orders.deleteMany({ customer: this._conditions._id });
+  await Basket.deleteOne({ customer: this._conditions._id });
+  next();
 });
 
 UserSchema.methods.getSignedJwtToken = function () {

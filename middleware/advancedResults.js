@@ -1,6 +1,7 @@
 const advancedResults = (model, ...populate) => async (req, res, next) => {
   let query;
   const reqQuery = { ...req.query };
+
   const removeFields = ['select', 'sort', 'page', 'limit'];
   removeFields.forEach((param) => delete reqQuery[param]);
   query = model.find(reqQuery);
@@ -22,15 +23,15 @@ const advancedResults = (model, ...populate) => async (req, res, next) => {
     query = query.sort(sortBy);
   }
   const page = parseInt(req.query.page, 10) || 1;
-  const limit = parseInt(req.query.limit, 10) || 20;
+  const limit = parseInt(req.query.limit, 10) || 15;
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
-  const total = await model.countDocuments();
+  const total = await model.estimatedDocumentCount();
 
   query = query.skip(startIndex).limit(limit);
 
   if (populate) {
-    query = query.populate(populate.map((obj) => obj));
+    populate.map((obj) => query = query.populate(obj));
   }
 
   const pagination = {};
@@ -48,12 +49,32 @@ const advancedResults = (model, ...populate) => async (req, res, next) => {
   }
 
   const results = await query;
-  res.advancedResults = {
-    success: true,
-    count: results.length,
-    pagination,
-    data: results,
-  };
+
+  let mytotal;
+  if (req.query.customer) {
+    mytotal = await model.countDocuments({
+      customer: req.query.customer,
+    });
+      res.advancedResults = {
+      success: true,
+      count: results.length,
+      limit,
+      total: mytotal,
+      pagination,
+      data: results,
+    };
+  } else {
+    mytotal = await model.countDocuments();
+    res.advancedResults = {
+      success: true,
+      count: results.length,
+      limit,
+      total: mytotal,
+      pagination,
+      data: results,
+    };
+  }
+
   next();
 };
 

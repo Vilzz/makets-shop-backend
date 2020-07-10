@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
-
+const Attributes = require('./Attributes');
+// валидаторы больше не нужны убери
 function validator(arr) {
   const enum_array = [250, 200, 144, 100, 72, 50];
   const found = arr.every((r) => enum_array.includes(r));
@@ -61,10 +62,12 @@ const MaketSchema = new mongoose.Schema({
     type: String,
     default: 'Алюминий',
   },
-  packing: {
-    type: String,
-    default: 'Стандартная',
-  },
+  packing: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Packing',
+    },
+  ],
   description: {
     type: String,
     required: [true, 'Требуется добавить описание макета'],
@@ -78,6 +81,10 @@ const MaketSchema = new mongoose.Schema({
 
 MaketSchema.pre('save', function (next) {
   this.slug = slugify(this.maketname, { lower: true });
+  next();
+});
+MaketSchema.pre('deleteOne', async function (next) {
+  await Attributes.deleteMany({ maketid: this._conditions._id });
   next();
 });
 

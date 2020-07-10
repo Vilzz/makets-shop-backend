@@ -37,6 +37,10 @@ router
         path: 'attributes',
         select:
           'attributes.scalesize attributes.w_netto attributes.w_bruto  attributes.height attributes.instock lastupdated',
+      },
+      {
+        path: 'packing',
+        select: 'name params',
       }
     ),
     getMakets

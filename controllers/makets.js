@@ -31,10 +31,15 @@ exports.getMaket = asyncHandler(async (req, res, next) => {
 // @route GET /api/v1/makets/slug/:slug
 // @access  Public
 exports.getMaketBySlug = asyncHandler(async (req, res, next) => {
-  const maket = await Maket.findOne({ slug: `${req.params.slug}` }).populate({
-    path: 'attributes',
-    select: 'attributes lastupdated',
-  });
+  const maket = await Maket.findOne({ slug: `${req.params.slug}` })
+    .populate({
+      path: 'attributes',
+      select: 'attributes lastupdated',
+    })
+    .populate({
+      path: 'packing',
+      select: 'name addtoprice description params',
+    });
   if (!maket) {
     return next(new ErrorResponse(`Ресурс не найден`, 404));
   }
@@ -128,13 +133,7 @@ exports.updateMaket = asyncHandler(async (req, res, next) => {
 // @route DELETE /api/v1/makets/:id
 // @access Private
 exports.deleteMaket = asyncHandler(async (req, res, next) => {
-  const maket = await Maket.findById(req.params.id);
-  if (!maket) {
-    return next(
-      new ErrorResponse(`Ресурс с id - ${req.params.id} не найден`, 404)
-    );
-  }
-  await maket.remove();
+  const maket = await Maket.deleteOne({ _id: req.params.id });
   res.status(200).json({ success: true, data: {} });
 });
 

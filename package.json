@@ -1,5 +1,5 @@
 {
-  "name": "makets_backend",
+  "name": "red-hand-shop",
   "version": "1.0.0",
   "description": "Space Makets e-shop API",
   "main": "server.js",
@@ -7,8 +7,14 @@
     "start": "NODE_ENV=production node server",
     "server": "nodemon server",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
+  "keywords":[
+    "node-api",
+    "space-ships",
+    "models"
+  ],
   "author": "Baklanov Dmitry",
   "license": "ISC",
   "dependencies": {
@@ -33,5 +39,8 @@
   },
   "devDependencies": {
     "concurrently": "^5.1.0"
+  },
+  "engines": {
+    "node": "12.18.x"
   }
 }

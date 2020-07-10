@@ -14,7 +14,10 @@ const { protect, authorise } = require('../middleware/auth');
 router
   .route('/')
   .get(
-    advancedResults(Review, { path: 'maket', select: 'name description' }),
+    advancedResults(Review, { 
+      path: 'maket', 
+      select: 'name description' 
+    }),
     getReviews
   )
   .post(protect, authorise('user', 'admin'), addReview);

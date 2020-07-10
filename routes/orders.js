@@ -16,12 +16,16 @@ router
   .route('/')
   .get(
     protect,
-    authorise('admin', 'owner'),
+    authorise('user', 'admin', 'owner'),
     advancedResults(
       Order,
       {
         path: 'items.item',
         select: 'maketname ',
+      },
+      {
+        path: 'items.packing',
+        select: 'name addtoprice',
       },
       {
         path: 'customer',

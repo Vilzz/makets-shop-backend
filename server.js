@@ -25,6 +25,9 @@ const reviews = require('./routes/reviews');
 const prices = require('./routes/prices');
 const orders = require('./routes/orders');
 const attributes = require('./routes/attributes');
+const packing = require('./routes/packing');
+const basket = require('./routes/basket');
+const contact = require('./routes/contact');
 
 // Logging middleware
 const accessLogStream = rfs.createStream('access.log', {
@@ -44,11 +47,10 @@ app.use(mongoSanitize());
 app.use(helmet());
 app.use(xss());
 const limiter = rateLimit({
-  windowMs: 10 * 60 * 1000, //10 min
+  windowMs: 10 * 60 * 100, //10 min
   max: 1000,
 });
 app.use(limiter);
-app.use(hpp());
 app.use(hpp());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, './client/public')));
@@ -61,10 +63,21 @@ app.use('/api/v1/reviews', reviews);
 app.use('/api/v1/prices', prices);
 app.use('/api/v1/orders', orders);
 app.use('/api/v1/attributes', attributes);
+app.use('/api/v1/packing', packing);
+app.use('/api/v1/basket', basket);
+app.use('/api/v1/contact', contact);
 
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
+if(process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html' ));
+  })
+}
+
+
+const PORT = process.env.PORT || 3000;
 
 const server = app.listen(PORT, () => {
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);

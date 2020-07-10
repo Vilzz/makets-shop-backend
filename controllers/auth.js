@@ -18,8 +18,8 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
   });
 
   const token = user.getSignedJwtToken();
-
-  res.status(200).json({ success: true, token });
+  const id = user._id;
+  res.status(200).json({ success: true, token, id });
 });
 
 // @desc Login User route
@@ -48,7 +48,7 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
 });
 
 // @desc Log user out clear cookie
-// @route POST /api/v1/auth/logout
+// @route GET /api/v1/auth/logout
 // @access Private
 exports.logOut = asyncHandler(async (req, res, next) => {
   res.cookie('token', 'none', {
@@ -84,6 +84,47 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
   user.password = req.body.newPassword;
   await user.save();
   sendTokenResponse(user, 200, res);
+});
+
+// @desc Update user address
+// @route PUT /api/v1/auth/updateprofilephone
+// @access Private
+exports.updateUserPhone = asyncHandler(async (req, res, next) => {
+  const phone = req.body.phone === '' ? '+70000000000' : req.body.phone;
+  //Пeределать на req.user.id  
+  const user = await User.findByIdAndUpdate(
+    req.body.id,
+    { phone },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
+});
+
+// @desc Update user address
+// @route PUT /api/v1/auth/updateprofileaddress
+// @access Private
+exports.updateUserAddress = asyncHandler(async (req, res, next) => {
+  const address =
+    req.body.address === '      ' ? 'Адрес не указан' : req.body.address;
+
+  const user = await User.findByIdAndUpdate(
+    req.body.id,
+    { address },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
 });
 
 // @desc Update user profile
