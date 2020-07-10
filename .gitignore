@@ -3,4 +3,3 @@ config/config.env
 logs/
 seeder.js
 .vscode/
-client/
