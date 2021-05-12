@@ -32,7 +32,7 @@
     "mongoose-sequence": "^5.2.2",
     "morgan": "^1.10.0",
     "node-sass": "^4.14.1",
-    "nodemailer": "^6.4.6",
+    "nodemailer": "^6.4.16",
     "rotating-file-stream": "^2.0.2",
     "slugify": "^1.4.0",
     "xss-clean": "^0.1.1"
